@@ -93,7 +93,7 @@ const isAccountAlreadyExists = await foodPartnerModel.findOne({
 })
 
 if(isAccountAlreadyExists){
-    return res.json(400).json({
+    return res.status(400).json({
         message: "Food partner account already exists"
     })
 }
