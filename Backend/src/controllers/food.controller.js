@@ -11,10 +11,29 @@ async function createFood(req, res){
   
   const fileUploadResult = await storageService.uploadFile(req.file.buffer, uuid())
    
-  res.send("food item created")
+   const foodItem  = await foodModel.create({
+    name : req.body.name ,
+    description: req.body.description ,
+    video: fileUploadResult.url ,
+    foodPartner : req.foodPartner._id
+   })
+   
+  res.status(201).json({
+    message: "Food created Successfullt",
+    food: foodItem
+  })
+}
+
+async function getFoodItems(req, res){
+    const foodItems = await foodModel.find({})
+    res.status(200).json({
+        message: "Food items fetched successfully",
+        foodItems
+    })
 }
 
 
 module.exports  = {
     createFood,
+    getFoodItems
 }
