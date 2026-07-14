@@ -86,7 +86,7 @@ res.status(200).json({
 
 async function registerFoodPartner( req, res ){
 
-const {name, email, password } = req.body;
+const {name, email, phone, address, contactName ,password } = req.body;
 
 const isAccountAlreadyExists = await foodPartnerModel.findOne({
     email
@@ -103,7 +103,11 @@ const hashedPassword = await bcrypt.hash(password, 10);
 const foodPartner = await foodPartnerModel.create({
  name, 
  email,
- password: hashedPassword
+ password: hashedPassword,
+ phone,
+ address,
+ contactName
+
 })
 
 const token = jwt.sign({
@@ -117,7 +121,10 @@ res.status(201).json({
     foodPartner:{
         _id: foodPartner._id,
         email: foodPartner.email,
-        name: foodPartner.name
+        name: foodPartner.name,
+        address: foodPartner.address,
+        phone: foodPartner.phone,
+        contactName: foodPartner.contactName
     }
 })
 
